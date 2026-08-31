@@ -30,7 +30,7 @@ function boot(seed = {}) {
 
 const fresh = boot();
 const freshState = fresh.context.TripStore.load();
-assert.strictEqual(freshState.itinerary.length, 23);
+assert.strictEqual(freshState.itinerary.length, 25);
 assert.ok(freshState.itinerary.every(item => item.id));
 assert.strictEqual(fresh.context.TripContent.timeline.length, 11);
 assert.strictEqual(fresh.context.TripContent.regions.length, 4);
@@ -52,7 +52,20 @@ assert.match(migrated.values.get('jk-trip-planner-state-v1'), /updated-title/);
 assert.match(migrated.values.get('jk-trip-plan-v5'), /updated-title/);
 
 const reset = migrated.context.TripStore.resetItinerary();
-assert.strictEqual(reset.itinerary.length, 23);
+assert.strictEqual(reset.itinerary.length, 25);
 assert.strictEqual(reset.customTerms[0], 'legacy-term');
+
+const outdated = boot({
+  'jk-trip-planner-state-v1': JSON.stringify({
+    schemaVersion: 1,
+    catalogVersion: '2026.08.31',
+    itinerary: [legacyItem],
+    customTerms: ['keep-me']
+  })
+});
+const refreshedState = outdated.context.TripStore.load();
+assert.strictEqual(refreshedState.catalogVersion, '2026.08.31-r2');
+assert.strictEqual(refreshedState.itinerary.length, 25);
+assert.deepStrictEqual([...refreshedState.customTerms], ['keep-me']);
 
 console.log('trip-store tests passed');

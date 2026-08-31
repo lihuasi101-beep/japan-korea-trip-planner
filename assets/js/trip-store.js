@@ -69,6 +69,12 @@
   function load() {
     const unified = readJson(STATE_KEY, null);
     if (unified && unified.schemaVersion === TripCatalog.schemaVersion) {
+      if (unified.catalogVersion !== TripCatalog.catalogVersion) {
+        return persist({
+          itinerary: TripCatalog.itinerary,
+          customTerms: normalizeTerms(unified.customTerms)
+        });
+      }
       memoryState = {
         ...unified,
         itinerary: normalizeItinerary(unified.itinerary, TripCatalog.itinerary),
