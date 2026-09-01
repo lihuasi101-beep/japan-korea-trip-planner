@@ -21,9 +21,9 @@
     ['day-08-pm-2', '10/2', '周五', '福冈', 'GUNDAM SIDE-F、LaLaport购物', '下午', '高达主题店与购物'],
     ['day-08-night', '10/2', '周五', '福冈', 'ν高达夜间演出', '晚上', '演出时间出发前复核'],
     ['day-09-pm', '10/3', '周六', '首尔', '福冈机场→首尔', '下午', '跨国转场'],
+    ['day-09-night', '10/3', '周六', '首尔', '弘大', '晚上', '入住后晚餐与夜间逛街'],
     ['day-10-am', '10/4', '周日', '首尔', '景福宫、仁寺洞', '上午', '首尔历史文化'],
     ['day-10-pm', '10/4', '周日', '首尔', '南山公园', '下午', '城市观光'],
-    ['day-10-night', '10/4', '周日', '首尔', '弘大', '晚上', '晚餐与夜间逛街'],
     ['day-11-am', '10/5', '周一', '首尔', '仁川机场→北京', '上午', '国际航班回程']
   ].map(([id, date, weekday, city, title, slot, note]) => ({ id, date, weekday, city, title, slot, note }));
 
@@ -36,7 +36,7 @@
 
   global.TripCatalog = Object.freeze({
     schemaVersion: 1,
-    catalogVersion: '2026.08.31-r2',
+    catalogVersion: '2026.09.01-r3',
     meta: Object.freeze({
       title: '日韩11日秋游',
       dateRange: '2026/9/25–10/5',

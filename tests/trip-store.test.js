@@ -64,7 +64,7 @@ const outdated = boot({
   })
 });
 const refreshedState = outdated.context.TripStore.load();
-assert.strictEqual(refreshedState.catalogVersion, '2026.08.31-r2');
+assert.strictEqual(refreshedState.catalogVersion, '2026.09.01-r3');
 assert.strictEqual(refreshedState.itinerary.length, 25);
 assert.deepStrictEqual([...refreshedState.customTerms], ['keep-me']);
 
