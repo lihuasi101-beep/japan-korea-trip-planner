@@ -35,6 +35,8 @@ assert.ok(freshState.itinerary.every(item => item.id));
 assert.strictEqual(fresh.context.TripContent.timeline.length, 11);
 assert.strictEqual(fresh.context.TripContent.regions.length, 4);
 assert.strictEqual(fresh.context.TripContent.guideSections.length, 6);
+assert.strictEqual(fresh.context.TripContent.backgroundGroups.length, 4);
+assert.strictEqual(fresh.context.TripContent.backgroundGroups.reduce((sum, group) => sum + group.cards.length, 0), 18);
 assert.ok(fresh.context.TripContent.bookingItems.length >= 15);
 assert.deepStrictEqual({ ...freshState.confirmations }, {});
 assert.deepStrictEqual([...freshState.personalNotes], []);
