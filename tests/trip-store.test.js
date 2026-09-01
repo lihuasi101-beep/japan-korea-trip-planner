@@ -37,6 +37,7 @@ assert.strictEqual(fresh.context.TripContent.regions.length, 4);
 assert.strictEqual(fresh.context.TripContent.guideSections.length, 6);
 assert.ok(fresh.context.TripContent.bookingItems.length >= 15);
 assert.deepStrictEqual({ ...freshState.confirmations }, {});
+assert.deepStrictEqual([...freshState.personalNotes], []);
 
 const legacyItem = {
   date: '9/25', weekday: '\u5468\u4e94', city: '\u91dc\u5c71',
@@ -58,10 +59,18 @@ migrated.context.TripStore.saveConfirmation('blue-line', 'done');
 assert.strictEqual(migrated.context.TripStore.getState().confirmations['blue-line'], 'done');
 assert.match(migrated.values.get('jk-trip-planner-state-v1'), /blue-line/);
 
+const personalNote = migrated.context.TripStore.createPersonalNote({
+  category: '交通卡', title: '带西瓜卡', detail: '出发前放进钱包'
+});
+migrated.context.TripStore.savePersonalNotes([personalNote]);
+assert.strictEqual(migrated.context.TripStore.getState().personalNotes[0].title, '带西瓜卡');
+assert.match(migrated.values.get('jk-trip-planner-state-v1'), /带西瓜卡/);
+
 const reset = migrated.context.TripStore.resetItinerary();
 assert.strictEqual(reset.itinerary.length, 25);
 assert.strictEqual(reset.customTerms[0], 'legacy-term');
 assert.strictEqual(reset.confirmations['blue-line'], 'done');
+assert.strictEqual(reset.personalNotes[0].category, '交通卡');
 
 const outdated = boot({
   'jk-trip-planner-state-v1': JSON.stringify({
@@ -69,7 +78,8 @@ const outdated = boot({
     catalogVersion: '2026.08.31',
     itinerary: [legacyItem],
     customTerms: ['keep-me'],
-    confirmations: { 'aso-alert': 'review' }
+    confirmations: { 'aso-alert': 'review' },
+    personalNotes: [{ id: 'note-old', category: '换汇', title: '兑换日元', detail: '', done: false }]
   })
 });
 const refreshedState = outdated.context.TripStore.load();
@@ -77,5 +87,6 @@ assert.strictEqual(refreshedState.catalogVersion, '2026.09.01-r3');
 assert.strictEqual(refreshedState.itinerary.length, 25);
 assert.deepStrictEqual([...refreshedState.customTerms], ['keep-me']);
 assert.strictEqual(refreshedState.confirmations['aso-alert'], 'review');
+assert.strictEqual(refreshedState.personalNotes[0].title, '兑换日元');
 
 console.log('trip-store tests passed');

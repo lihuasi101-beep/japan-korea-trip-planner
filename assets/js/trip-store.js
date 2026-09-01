@@ -58,6 +58,19 @@
       .map(([id, status]) => [String(id), status]));
   }
 
+  function normalizePersonalNotes(notes) {
+    const categories = new Set(['通信', '换汇', '交通卡', '行李', '证件', '购物', '其他']);
+    if (!Array.isArray(notes)) return [];
+    return notes.filter(Boolean).map((note, index) => ({
+      id: String(note.id || `note-${Date.now().toString(36)}-${index}`),
+      category: categories.has(note.category) ? note.category : '其他',
+      title: String(note.title || '').trim(),
+      detail: String(note.detail || '').trim(),
+      done: Boolean(note.done),
+      createdAt: String(note.createdAt || new Date().toISOString())
+    })).filter(note => note.title);
+  }
+
   function persist(state) {
     const next = {
       schemaVersion: TripCatalog.schemaVersion,
@@ -65,6 +78,7 @@
       itinerary: normalizeItinerary(state.itinerary, TripCatalog.itinerary),
       customTerms: normalizeTerms(state.customTerms),
       confirmations: normalizeConfirmations(state.confirmations),
+      personalNotes: normalizePersonalNotes(state.personalNotes),
       updatedAt: new Date().toISOString()
     };
     memoryState = clone(next);
@@ -82,21 +96,24 @@
         return persist({
           itinerary: TripCatalog.itinerary,
           customTerms: normalizeTerms(unified.customTerms),
-          confirmations: normalizeConfirmations(unified.confirmations)
+          confirmations: normalizeConfirmations(unified.confirmations),
+          personalNotes: normalizePersonalNotes(unified.personalNotes)
         });
       }
       memoryState = {
         ...unified,
         itinerary: normalizeItinerary(unified.itinerary, TripCatalog.itinerary),
         customTerms: normalizeTerms(unified.customTerms),
-        confirmations: normalizeConfirmations(unified.confirmations)
+        confirmations: normalizeConfirmations(unified.confirmations),
+        personalNotes: normalizePersonalNotes(unified.personalNotes)
       };
       return clone(memoryState);
     }
     return persist({
       itinerary: readJson(LEGACY_ITINERARY_KEY, TripCatalog.itinerary),
       customTerms: readJson(LEGACY_TERMS_KEY, []),
-      confirmations: {}
+      confirmations: {},
+      personalNotes: []
     });
   }
 
@@ -122,6 +139,18 @@
       const state = current();
       state.confirmations = normalizeConfirmations({ ...state.confirmations, [id]: status });
       return persist(state);
+    },
+    savePersonalNotes(personalNotes) {
+      const state = current();
+      state.personalNotes = personalNotes;
+      return persist(state);
+    },
+    createPersonalNote(fields) {
+      return {
+        id: 'note-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7),
+        category: '其他', title: '', detail: '', done: false,
+        createdAt: new Date().toISOString(), ...fields
+      };
     },
     resetItinerary() {
       const state = current();
