@@ -20,9 +20,88 @@
     { name: '首尔', cls: 'seoul', period: '10/3–10/5 · 4处', spots: [['弘大', '10/3 晚上', '夜生活'], ['景福宫', '10/4 上午', '宫殿'], ['仁寺洞', '10/4 中午', '文化街区'], ['南山公园', '10/4 下午', '城市景观']], note: '抵达首尔当晚游览弘大；10月4日集中安排景福宫、仁寺洞和南山公园。' }
   ];
 
+  const guideSections = [
+    {
+      id: 'before-you-go', title: '先看这 4 件事', kicker: '本次行程的关键变量', tone: 'alert',
+      items: [
+        { title: '韩国秋夕与公休日', meta: '9/25–9/26、10/3–10/5', text: '抵达釜山正值秋夕，抵达及离开首尔又遇开天节与补休。热门交通可能拥挤，小店可能休息，出发前 7 天复核营业时间。', tag: '重要', link: 'https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=372&vcontsId=140038' },
+        { title: '阿苏火口暂不作为必达', meta: '9/29 · 阿苏', text: '当前按草千里、火山博物馆、阿苏神社组织主路线；只有警戒解除且现场开放时，才追加中岳火口。', tag: '动态', link: 'https://www.aso-volcano.jp/notice/index.cgi' },
+        { title: '海云台蓝线需锁定产品', meta: '9/26 · 釜山', text: '海岸列车与天空胶囊不是同一种票。需要明确上车站、方向、班次和单程/往返，避免现场路线重复。', tag: '预约', link: 'https://www.tbluelinepark.com/' },
+        { title: '跨城日由航班决定', meta: '9/25、9/27、10/3、10/5', text: '四个航班节点尚未写入具体时间。航班落地、入境和行李时间会直接决定当日景点能否保留。', tag: '待补充' }
+      ]
+    },
+    {
+      id: 'busan', title: '釜山', kicker: '海岸线由东向西，一天串联', tone: 'busan',
+      items: [
+        { title: '甘川文化村', meta: '建议 1.5–2 小时 · 白天', text: '重点是沿山彩色街区和观景平台，坡道较多。若 9/25 落地较晚，与松岛缆车二选一。', tag: '街区' },
+        { title: '松岛海上缆车', meta: '建议 1.5–2 小时 · 傍晚', text: '主要看海上视角与日落。大风、降雨可能影响运行，适合作为抵达日可伸缩项目。', tag: '天气相关' },
+        { title: '龙宫寺 → 松亭 → 青沙浦 → 尾浦', meta: '建议 7–9 小时 · 9/26', text: '按东向西游览最顺路。龙宫寺台阶多；午餐放在松亭；青沙浦留给灯塔和海岸景观，最后到海云台。', tag: '主路线' },
+        { title: '广安里夜景', meta: '建议 1.5–2 小时 · 入夜后', text: '重点是海滩正对广安大桥的夜景。当天体力不足时可压缩海云台停留，但保留广安里。', tag: '夜景' }
+      ]
+    },
+    {
+      id: 'kumamoto', title: '熊本与阿苏', kicker: '城郭、庭园与火山自然', tone: 'kumamoto',
+      items: [
+        { title: '水前寺成趣园', meta: '建议 1.5 小时 · 上午', text: '传统回游式庭园，适合早上慢走。与熊本城不在同一区域，建议先庭园、后回市中心。', tag: '庭园' },
+        { title: '熊本城＋城彩苑', meta: '建议 2.5–3 小时 · 下午', text: '熊本城是当天核心，城彩苑适合安排餐饮和伴手礼。近期运营状态仍应在出发前复核。', tag: '核心景点', link: 'https://castle.kumamoto-guide.jp/en/' },
+        { title: '熊本熊广场', meta: '建议 45–60 分钟', text: '是否能看到舞台活动取决于当日时间表；若未赶上演出，可将它作为市中心顺路短停。', tag: '查时刻' },
+        { title: '草千里与阿苏', meta: '建议全天 · 早出发', text: '公共交通班次少，先锁定往返。草千里和博物馆是主方案，阿苏神社作为火口关闭时的稳定替代。', tag: '需备选' }
+      ]
+    },
+    {
+      id: 'fukuoka', title: '福冈', kicker: '神社、公园、海滨与高达', tone: 'fukuoka',
+      items: [
+        { title: '栉田神社与博多', meta: '建议 2.5–3.5 小时', text: '适合熊本返回福冈后的轻量下午，神社停留不必过长，把更多时间留给博多老街和晚餐。', tag: '抵达日' },
+        { title: '太宰府天满宫', meta: '建议半天 · 上午', text: '市区往返约需 2 小时，参道、正殿与午餐一起安排。上午前往更从容。', tag: '半日游', link: 'https://www.dazaifutenmangu.or.jp/en/' },
+        { title: '福冈塔与海滨', meta: '建议 1.5–2 小时 · 日落前', text: '以日落到夜景为目标，预留排队和登塔时间；天气差时可转为市区购物。', tag: '夜景', link: 'https://www.fukuokatower.co.jp/' },
+        { title: '大濠公园＋福冈城遗址', meta: '建议 2–2.5 小时 · 上午', text: '两处步行串联，作为高达主题日前半段。以散步和遗址景观为主，不需要排得过细。', tag: '步行' },
+        { title: 'LaLaport 与 RX-93ff ν 高达', meta: '建议 5–7 小时 · 下午至夜间', text: '户外立像、4 楼 GUNDAM SIDE-F、购物和夜间演出一次完成。演出可能因天气或活动调整。', tag: '下午＋夜间', link: 'https://www.gundam-side-f.net/about/' }
+      ]
+    },
+    {
+      id: 'seoul', title: '首尔', kicker: '抵达夜生活＋一天经典路线', tone: 'seoul',
+      items: [
+        { title: '弘大', meta: '建议 2.5–3 小时 · 10/3 晚', text: '以航班准点和顺利进城为前提，定位为晚餐与夜间逛街，不额外绑定预约项目。', tag: '弹性安排' },
+        { title: '景福宫＋仁寺洞', meta: '建议 4–4.5 小时 · 上午至中午', text: '先景福宫，再步行或短途前往仁寺洞午餐。景福宫以宫殿轴线和庆会楼为主要看点。', tag: '主路线' },
+        { title: '南山公园', meta: '建议 2–2.5 小时 · 下午', text: '重点是城市景观和散步；是否登塔可现场决定。若天气差，可缩短并转入室内商圈。', tag: '天气相关' }
+      ]
+    },
+    {
+      id: 'tools', title: '入境、地图与随身准备', kicker: '临行前一次配齐', tone: 'tools',
+      items: [
+        { title: '韩国电子入境卡', meta: '每次入境前 3 天内', text: '本次分别从北京进入釜山、从福冈进入首尔，需要按当次入境要求处理。只使用免费官方网站。', tag: '入境', link: 'https://www.e-arrivalcard.go.kr/portal/main/index.do' },
+        { title: '地图与翻译', meta: '提前安装并下载离线资料', text: '韩国优先准备 Naver Map 或 KakaoMap，翻译可用 Papago；日本使用 Google Maps，并保存酒店的日文/韩文地址。', tag: '工具' },
+        { title: '支付与网络', meta: '银行卡＋少量现金＋稳定网络', text: '准备少量韩元、日元现金用于小店和山区交通；提前确认银行卡境外支付，并准备 eSIM、漫游或随身 Wi-Fi。', tag: '基础准备' },
+        { title: '离线应急包', meta: '手机与云端各存一份', text: '保存护照、签证、保险、机票、酒店、紧急联系人和重要预约截图；阿苏当天另备防风防雨外套。', tag: '安全' }
+      ]
+    }
+  ];
+
+  const bookingItems = [
+    { id: 'flight-beijing-busan', group: '交通与住宿', title: '北京 → 釜山航班', date: '9/25', deadline: '尽快锁定', detail: '补充航班号、起飞/落地时间、北京机场与金海机场航站楼。', level: 'critical' },
+    { id: 'flight-busan-fukuoka', group: '交通与住宿', title: '釜山 → 福冈航班', date: '9/27', deadline: '尽快锁定', detail: '优先上午抵达；确认金海机场出发与福冈国际航站楼落地时间。', level: 'critical' },
+    { id: 'transfer-fukuoka-kumamoto', group: '交通与住宿', title: '福冈机场 → 熊本衔接', date: '9/27', deadline: '航班确定后', detail: '在“国际航站楼巴士→博多→新干线”和“机场直达熊本巴士”中确定一套，并保留延误余量。', level: 'critical', link: 'https://www.fukuoka-airport.jp/en/access/bus.html' },
+    { id: 'flight-fukuoka-seoul', group: '交通与住宿', title: '福冈 → 首尔航班', date: '10/3', deadline: '尽快锁定', detail: '建议中午前后起飞；补充抵达机场、航站楼及进城方式。', level: 'critical' },
+    { id: 'flight-incheon-beijing', group: '交通与住宿', title: '仁川 → 北京航班', date: '10/5', deadline: '尽快锁定', detail: '补充航班号、航站楼；酒店出发按起飞前 4.5–5 小时倒推。', level: 'critical' },
+    { id: 'hotels', group: '交通与住宿', title: '四地酒店与行李方案', date: '全程', deadline: '订票后同步', detail: '记录釜山、熊本、福冈、首尔酒店地址、入住时间、最近车站及寄存安排。', level: 'critical' },
+    { id: 'blue-line', group: '门票与活动', title: '海云台蓝线公园', date: '9/26', deadline: '开放预约后', detail: '确认海岸列车或天空胶囊、上车站、方向、班次与单程/往返。', level: 'booking', link: 'https://www.tbluelinepark.com/' },
+    { id: 'aso-transport', group: '门票与活动', title: '阿苏往返交通', date: '9/29', deadline: '班次开放后', detail: '锁定熊本往返班次；主方案按草千里、博物馆与阿苏神社组织。', level: 'critical', link: 'https://www.sankobus.jp/news/20260814-mtaso/' },
+    { id: 'aso-alert', group: '临行复核', title: '阿苏火山警戒与天气', date: '9/29', deadline: '出发前 7 天及前 1 天', detail: '复核警戒等级、巴士终点与景区开放；中岳火口不作为当前必达项。', level: 'review', link: 'https://www.aso-volcano.jp/notice/index.cgi' },
+    { id: 'jr-tickets', group: '门票与活动', title: '博多 ↔ 熊本新干线', date: '9/27、9/30', deadline: '乘车前 1 个月起', detail: '先确定航班和酒店，再决定是否提前指定席；9/27 需留出入境延误余量。', level: 'booking', link: 'https://www.jrkyushu.co.jp/english/train_reservation/guide/reserve.html' },
+    { id: 'kumamoto-open', group: '临行复核', title: '熊本城与市内设施', date: '9/28', deadline: '出发前 7 天', detail: '复核熊本城开放、地震后交通及熊本熊广场舞台时间。', level: 'review', link: 'https://castle.kumamoto-guide.jp/en/info/' },
+    { id: 'gundam-show', group: '临行复核', title: 'ν 高达夜间演出', date: '10/2', deadline: '出发前 7 天', detail: '复核夜间场次、天气与临时活动；当前计划以 19:30 左右演出为目标。', level: 'review', link: 'https://mitsui-shopping-park.com/lalaport/fukuoka/event/2718166.html' },
+    { id: 'korea-holiday', group: '临行复核', title: '韩国节假日营业与交通', date: '9/25–9/26、10/3–10/5', deadline: '出发前 7 天', detail: '复核秋夕、开天节与补休期间的餐厅、景点、机场交通和营业时间。', level: 'critical', link: 'https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=372&vcontsId=140038' },
+    { id: 'korea-entry-busan', group: '入境与随身', title: '韩国电子入境卡：釜山', date: '9/25', deadline: '9/22–9/25', detail: '按当次入境要求填写，只使用免费官方网站。', level: 'admin', link: 'https://www.e-arrivalcard.go.kr/portal/main/index.do' },
+    { id: 'japan-entry', group: '入境与随身', title: '日本入境与海关资料', date: '9/27', deadline: '出发前完成', detail: '准备签证、酒店地址、返程/后续机票，并按届时官方要求完成入境和海关申报。', level: 'admin' },
+    { id: 'korea-entry-seoul', group: '入境与随身', title: '韩国电子入境卡：首尔', date: '10/3', deadline: '9/30–10/3', detail: '这是从日本再次进入韩国，单独按当次入境要求确认和填写。', level: 'admin', link: 'https://www.e-arrivalcard.go.kr/portal/main/index.do' },
+    { id: 'connectivity-docs', group: '入境与随身', title: '网络、支付与离线文件', date: '全程', deadline: '出发前 3 天', detail: '完成 eSIM/漫游、银行卡境外支付、小额现金及证件和预约截图离线备份。', level: 'admin' }
+  ];
+
   global.TripContent = Object.freeze({
     timeline: Object.freeze(timeline),
     regions: Object.freeze(regions),
+    guideSections: Object.freeze(guideSections),
+    bookingItems: Object.freeze(bookingItems),
     flightChecks: Object.freeze([
       '9/25 北京→釜山：落地时间决定甘川与松岛能否都去。',
       '9/27 釜山→福冈→熊本：当天继续转新干线，不在福冈停留。',

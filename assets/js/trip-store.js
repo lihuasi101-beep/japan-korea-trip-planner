@@ -50,12 +50,21 @@
       : [];
   }
 
+  function normalizeConfirmations(confirmations) {
+    const allowed = new Set(['todo', 'waiting', 'done', 'review', 'skip']);
+    if (!confirmations || typeof confirmations !== 'object' || Array.isArray(confirmations)) return {};
+    return Object.fromEntries(Object.entries(confirmations)
+      .filter(([id, status]) => id && allowed.has(status))
+      .map(([id, status]) => [String(id), status]));
+  }
+
   function persist(state) {
     const next = {
       schemaVersion: TripCatalog.schemaVersion,
       catalogVersion: TripCatalog.catalogVersion,
       itinerary: normalizeItinerary(state.itinerary, TripCatalog.itinerary),
       customTerms: normalizeTerms(state.customTerms),
+      confirmations: normalizeConfirmations(state.confirmations),
       updatedAt: new Date().toISOString()
     };
     memoryState = clone(next);
@@ -72,19 +81,22 @@
       if (unified.catalogVersion !== TripCatalog.catalogVersion) {
         return persist({
           itinerary: TripCatalog.itinerary,
-          customTerms: normalizeTerms(unified.customTerms)
+          customTerms: normalizeTerms(unified.customTerms),
+          confirmations: normalizeConfirmations(unified.confirmations)
         });
       }
       memoryState = {
         ...unified,
         itinerary: normalizeItinerary(unified.itinerary, TripCatalog.itinerary),
-        customTerms: normalizeTerms(unified.customTerms)
+        customTerms: normalizeTerms(unified.customTerms),
+        confirmations: normalizeConfirmations(unified.confirmations)
       };
       return clone(memoryState);
     }
     return persist({
       itinerary: readJson(LEGACY_ITINERARY_KEY, TripCatalog.itinerary),
-      customTerms: readJson(LEGACY_TERMS_KEY, [])
+      customTerms: readJson(LEGACY_TERMS_KEY, []),
+      confirmations: {}
     });
   }
 
@@ -104,6 +116,11 @@
     saveCustomTerms(customTerms) {
       const state = current();
       state.customTerms = customTerms;
+      return persist(state);
+    },
+    saveConfirmation(id, status) {
+      const state = current();
+      state.confirmations = normalizeConfirmations({ ...state.confirmations, [id]: status });
       return persist(state);
     },
     resetItinerary() {
