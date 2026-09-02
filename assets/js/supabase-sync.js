@@ -11,10 +11,14 @@
   let client = null;
   let user = null;
   let syncing = false;
+  let pendingPush = false;
   let syncTimer = null;
 
   const localNotes = () => TripStore.getState().personalNotes || [];
   const renderLocal = () => {
+    // The memo page keeps its own in-memory list. Refresh that list after a
+    // cloud pull; rendering from TripStore alone would otherwise show stale data.
+    if (typeof personalNotes !== 'undefined') personalNotes = localNotes();
     if (typeof renderMemo === 'function') renderMemo();
   };
   const setCard = (state, title, detail) => {
@@ -36,10 +40,11 @@
     if (!layout) return;
     const card = document.createElement('section');
     card.className = 'cloud-sync-card';
-    card.innerHTML = `<div class="cloud-sync-copy"><b data-cloud-title>个人备忘云同步</b><p data-cloud-detail>登录后可在电脑和手机查看同一份备忘，本地内容会先保留。</p></div><div class="cloud-sync-actions"><input type="email" data-cloud-email placeholder="输入邮箱接收登录链接" autocomplete="email"><button type="button" class="cloud-primary" data-cloud-login>发送登录链接</button><button type="button" class="cloud-signout" data-cloud-logout hidden>退出登录</button></div><p class="cloud-sync-status" aria-live="polite">尚未登录 · 当前设备仍可离线使用</p>`;
+    card.innerHTML = `<div class="cloud-sync-copy"><b data-cloud-title>个人备忘云同步</b><p data-cloud-detail>登录后可在电脑和手机查看同一份备忘，本地内容会先保留。</p></div><div class="cloud-sync-actions"><input type="email" data-cloud-email placeholder="输入邮箱接收登录链接" autocomplete="email"><button type="button" class="cloud-primary" data-cloud-login>发送登录链接</button><button type="button" class="cloud-primary" data-cloud-now hidden>立即同步</button><button type="button" class="cloud-signout" data-cloud-logout hidden>退出登录</button></div><p class="cloud-sync-status" aria-live="polite">尚未登录 · 当前设备仍可离线使用</p>`;
     layout.before(card);
     card.addEventListener('click', event => {
       if (event.target.closest('[data-cloud-login]')) signIn(card);
+      if (event.target.closest('[data-cloud-now]')) pullAndMerge();
       if (event.target.closest('[data-cloud-logout]')) client?.auth.signOut();
     });
   }
@@ -49,16 +54,19 @@
     if (!card) return;
     const email = card.querySelector('[data-cloud-email]');
     const login = card.querySelector('[data-cloud-login]');
+    const syncNow = card.querySelector('[data-cloud-now]');
     const logout = card.querySelector('[data-cloud-logout]');
     if (user) {
       email.value = user.email || '';
       email.disabled = true;
       login.hidden = true;
+      syncNow.hidden = false;
       logout.hidden = false;
       setCard('ok', '已连接云端备忘', `${user.email} · 会自动同步到登录此账号的设备`);
     } else {
       email.disabled = false;
       login.hidden = false;
+      syncNow.hidden = true;
       logout.hidden = true;
       setCard('', '个人备忘云同步', '登录后可在电脑和手机查看同一份备忘，本地内容会先保留。');
     }
@@ -84,21 +92,40 @@
   }
 
   async function pushLocal() {
-    if (!client || !user || syncing) return;
+    if (!client || !user) return;
+    if (syncing) {
+      pendingPush = true;
+      return;
+    }
+    syncing = true;
     const notes = localNotes();
     const { data: remote, error: readError } = await client.from(TABLE).select('note_id').eq('trip_id', TRIP_ID);
-    if (readError) return setCard('error', '云端表尚未准备好', '请先在 Supabase SQL Editor 执行 supabase/personal-notes.sql。');
+    if (readError) {
+      syncing = false;
+      return setCard('error', '云端读取失败', readError.message);
+    }
     const localIds = new Set(notes.map(note => note.id));
     const stale = (remote || []).map(row => row.note_id).filter(id => !localIds.has(id));
     if (stale.length) {
       const { error } = await client.from(TABLE).delete().eq('trip_id', TRIP_ID).in('note_id', stale);
-      if (error) return setCard('error', '删除同步失败', error.message);
+      if (error) {
+        syncing = false;
+        return setCard('error', '删除同步失败', error.message);
+      }
     }
     if (notes.length) {
       const { error } = await client.from(TABLE).upsert(notes.map(noteToRow), { onConflict: 'user_id,trip_id,note_id' });
-      if (error) return setCard('error', '备忘同步失败', error.message);
+      if (error) {
+        syncing = false;
+        return setCard('error', '备忘同步失败', error.message);
+      }
     }
-    setCard('ok', '已连接云端备忘', `${user.email} · 刚刚同步完成`);
+    syncing = false;
+    setCard('ok', '已连接云端备忘', `${user.email} · ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })} 同步完成`);
+    if (pendingPush) {
+      pendingPush = false;
+      await pushLocal();
+    }
   }
 
   async function pullAndMerge() {
@@ -108,7 +135,7 @@
     const { data: remote, error } = await client.from(TABLE).select('*').eq('trip_id', TRIP_ID).order('updated_at', { ascending: true });
     if (error) {
       syncing = false;
-      return setCard('error', '云端表尚未准备好', '请先在 Supabase SQL Editor 执行 supabase/personal-notes.sql。');
+      return setCard('error', '云端读取失败', error.message);
     }
     const merged = new Map(localNotes().map(note => [note.id, note]));
     (remote || []).forEach(row => {
@@ -127,6 +154,7 @@
     syncTimer = setTimeout(() => {
       const notes = localNotes().map(note => ({ ...note, updatedAt: new Date().toISOString() }));
       TripStore.savePersonalNotes(notes);
+      if (typeof personalNotes !== 'undefined') personalNotes = notes;
       pushLocal();
     }, 350);
   }
@@ -148,6 +176,9 @@
     memo?.addEventListener('submit', event => { if (!event.target.closest('.cloud-sync-card')) schedulePush(); });
     memo?.addEventListener('change', event => { if (!event.target.closest('.cloud-sync-card')) schedulePush(); });
     memo?.addEventListener('click', event => { if (event.target.closest('[data-memo-delete],[data-memo-undo]')) schedulePush(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && user) pullAndMerge();
+    });
     const observer = new MutationObserver(renderCard);
     observer.observe(memo, { childList: true, subtree: true });
   }
