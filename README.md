@@ -27,4 +27,11 @@
 - 上午、下午、晚上及交通状态使用统一 SVG 图标；空白时段自动压缩，并以城市辅助色和“移动日”标识强化行程扫描效率。
 - 保存、导出与确认操作提供轻量状态反馈，页脚展示内容更新时间与临行复核提示。
 - 景点汇总与背景速读使用四张本地 WebP 地区横幅；首页加入低干扰路线纹理，图片署名与许可集中展示在页脚。
+
+## 个人备忘云同步
+
+- “个人备忘”支持可选的 Supabase 邮箱 Magic Link 登录；未登录时仍完全按原逻辑保存在本机，登录后才会同步。
+- 云端只使用独立表 `public.jk_trip_notes`，并通过 RLS 限制为当前用户自己的行；首次启用请在 Supabase SQL Editor 执行 [`supabase/personal-notes.sql`](supabase/personal-notes.sql)。
+- 在 Supabase Authentication 的 URL Configuration 中加入 `https://lihuasi101-beep.github.io/japan-korea-trip-planner/`，再从网站“个人备忘”页输入邮箱登录。
+- 前端只使用 Supabase publishable/anon 公钥；不要把 `service_role` 或 `sb_secret` 密钥放进静态站点。
 - 个人备忘保存在统一状态的 `personalNotes` 字段中，不预置用户示例内容，也会随完整行程 JSON 导出。

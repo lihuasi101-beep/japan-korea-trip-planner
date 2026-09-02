@@ -67,7 +67,8 @@
       title: String(note.title || '').trim(),
       detail: String(note.detail || '').trim(),
       done: Boolean(note.done),
-      createdAt: String(note.createdAt || new Date().toISOString())
+      createdAt: String(note.createdAt || new Date().toISOString()),
+      updatedAt: String(note.updatedAt || note.createdAt || new Date().toISOString())
     })).filter(note => note.title);
   }
 
@@ -149,7 +150,7 @@
       return {
         id: 'note-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7),
         category: '其他', title: '', detail: '', done: false,
-        createdAt: new Date().toISOString(), ...fields
+        createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), ...fields
       };
     },
     resetItinerary() {
