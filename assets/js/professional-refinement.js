@@ -83,7 +83,7 @@
 
   function updateTrustDetails() {
     const footer = document.querySelector('.site-footer');
-    if (footer) footer.textContent = '日韩秋日旅行计划 · 最后更新 2026年9月1日 · 动态信息请在临行前复核 · 数据仅保存在你的浏览器中';
+    if (footer) footer.innerHTML = `<span>日韩秋日旅行计划 · 最后更新 2026年9月1日 · 动态信息请在临行前复核 · 数据仅保存在你的浏览器中</span><details class="photo-credits"><summary>图片来源与许可</summary><div><a href="https://commons.wikimedia.org/wiki/File:Gwangalli_Beach_and_Gwangan_Bridge_Busan.jpg" target="_blank" rel="noopener">釜山 · Masterhatch · CC BY-SA 4.0</a>　<a href="https://commons.wikimedia.org/wiki/File:20240315_Kusasenrigahama_01.jpg" target="_blank" rel="noopener">阿苏 · ノボホショコロトソ · CC BY 4.0</a>　<a href="https://commons.wikimedia.org/wiki/File:Fukuoka_Skyline_of_Seaside_Momochi.jpg" target="_blank" rel="noopener">福冈 · Nryate · CC BY-SA 4.0</a>　<a href="https://commons.wikimedia.org/wiki/File:%EA%B4%91%ED%99%94%EB%AC%B8_%EC%9B%94%EB%8C%80.jpg" target="_blank" rel="noopener">首尔 · 서울관광 아카이브 · KOGL Type 1</a></div></details>`;
   }
 
   document.addEventListener('DOMContentLoaded', () => {

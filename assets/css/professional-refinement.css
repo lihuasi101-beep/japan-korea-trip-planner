@@ -11,6 +11,27 @@ body {
   overflow-x: hidden;
 }
 
+.hero-copy {
+  position: relative;
+}
+
+.hero-copy::after {
+  content: "";
+  position: absolute;
+  right: -285px;
+  bottom: -72px;
+  width: 620px;
+  height: 190px;
+  pointer-events: none;
+  opacity: 0.16;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 190' fill='none'%3E%3Cpath d='M12 142C104 57 173 173 261 94S409 18 608 63' stroke='white' stroke-width='2' stroke-dasharray='7 8'/%3E%3Cg fill='%23baf3e7' stroke='white' stroke-width='2'%3E%3Ccircle cx='44' cy='118' r='6'/%3E%3Ccircle cx='169' cy='129' r='6'/%3E%3Ccircle cx='282' cy='77' r='6'/%3E%3Ccircle cx='401' cy='42' r='6'/%3E%3Ccircle cx='548' cy='54' r='6'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.hero-copy > * {
+  position: relative;
+  z-index: 1;
+}
+
 .overview-icon {
   font-size: 0;
 }
@@ -113,6 +134,87 @@ body {
   background: var(--line);
 }
 
+.region .region-head,
+.background-group .background-group-head {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.region .region-head {
+  min-height: 132px;
+  align-items: flex-end;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.region.busan .region-head,
+#background-busan .background-group-head {
+  background-image: linear-gradient(90deg, rgba(5, 51, 64, 0.88), rgba(5, 51, 64, 0.25)), url("../images/regions/busan-gwangalli.webp") !important;
+}
+
+.region.kumamoto .region-head,
+#background-kumamoto .background-group-head {
+  background-image: linear-gradient(90deg, rgba(45, 31, 68, 0.88), rgba(45, 31, 68, 0.2)), url("../images/regions/kumamoto-aso.webp") !important;
+}
+
+.region.fukuoka .region-head,
+#background-fukuoka .background-group-head {
+  background-image: linear-gradient(90deg, rgba(75, 39, 12, 0.88), rgba(75, 39, 12, 0.2)), url("../images/regions/fukuoka-momochi.webp") !important;
+}
+
+.region.seoul .region-head,
+#background-seoul .background-group-head {
+  background-image: linear-gradient(90deg, rgba(69, 19, 34, 0.88), rgba(69, 19, 34, 0.2)), url("../images/regions/seoul-gyeongbokgung.webp") !important;
+}
+
+.background-group .background-group-head {
+  min-height: 148px;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.34);
+}
+
+.background-group .background-group-head h2,
+.background-group .background-group-head p {
+  color: #fff;
+}
+
+.background-group .background-source {
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--group-accent);
+  text-shadow: none;
+  backdrop-filter: blur(8px);
+}
+
+.photo-credits {
+  width: min(100%, 860px);
+  margin: 8px auto 0;
+}
+
+.photo-credits summary {
+  width: max-content;
+  margin: auto;
+  color: #647b76;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.photo-credits div {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  line-height: 1.8;
+}
+
+.photo-credits a {
+  color: var(--teal-dark);
+  text-decoration: none;
+}
+
 .site-toast {
   position: fixed;
   left: 50%;
@@ -172,6 +274,11 @@ body {
     min-width: 0;
   }
 
+  .hero-copy::after {
+    right: -330px;
+    bottom: -82px;
+  }
+
   .route-line {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -227,6 +334,7 @@ body {
 
   .background-group-head {
     display: block !important;
+    min-height: 132px !important;
   }
 
   .background-source {
