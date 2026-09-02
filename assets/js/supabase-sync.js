@@ -68,9 +68,12 @@
     const email = card.querySelector('[data-cloud-email]').value.trim();
     if (!email) return setCard('error', '请输入邮箱', '需要邮箱才能发送一次性登录链接。');
     setCard('', '正在发送登录链接…', '请检查邮箱（包括垃圾邮件文件夹）。');
+    const redirect = new URL(window.location.href);
+    redirect.search = '';
+    redirect.hash = '';
     const { error } = await client.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: window.location.href.split('#')[0] }
+      options: { emailRedirectTo: redirect.href }
     });
     if (error) setCard('error', '登录链接发送失败', error.message);
     else setCard('ok', '登录链接已发送', '请在邮箱中点击链接，返回此页面后会自动同步。');
