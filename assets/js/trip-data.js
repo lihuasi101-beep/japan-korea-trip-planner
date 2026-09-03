@@ -29,6 +29,6 @@
     ['day-13-am','10/7','周三','首尔','酒店→仁川机场→北京','上午','10:40 ICN→12:05 PEK · 大韩航空 KE855']
   ].map(([id,date,weekday,city,title,slot,note])=>({id,date,weekday,city,title,slot,note}));
   const defaultTerms=['交通转场','酒店入住/退房','休息/机动','自由活动','早餐/早午餐','当地晚餐','购物','松岛海上缆车','甘川文化村','海东龙宫寺','海云台蓝线公园','青沙浦','广安里夜景','对马岛比田胜','万松院','栉田神社','太宰府天满宫','福冈塔','大濠公园','福冈城遗址','实物大ν高达','GUNDAM SIDE-F','熊本城','城彩苑','水前寺成趣园','熊本熊广场','草千里','阿苏中岳火口','阿苏神社','景福宫','仁寺洞','南山公园','弘大'];
-  global.TripCatalog=Object.freeze({schemaVersion:1,catalogVersion:'2026.09.03-r4',meta:Object.freeze({title:'日韩13日秋游',dateRange:'2026/9/25–10/7',route:['北京','釜山','对马岛','福冈','熊本','首尔','北京']}),itinerary:Object.freeze(itinerary.map(Object.freeze)),defaultTerms:Object.freeze(defaultTerms)});
+  global.TripCatalog=Object.freeze({schemaVersion:1,catalogVersion:'2026.09.03-r5',meta:Object.freeze({title:'日韩13日秋游',dateRange:'2026/9/25–10/7',route:['北京','釜山','对马岛','福冈','熊本','首尔','北京']}),itinerary:Object.freeze(itinerary.map(Object.freeze)),defaultTerms:Object.freeze(defaultTerms)});
   document.addEventListener('DOMContentLoaded',()=>{document.title='日韩旅行计划｜'+global.TripCatalog.meta.route.join('·');const sub=document.querySelector('.hero-subtitle');if(sub)sub.textContent='13天12夜 · 釜山入境 · 对马岛与九州 · 首尔返程';const route=document.querySelector('.route-line');if(route)route.innerHTML=global.TripCatalog.meta.route.map((x,i)=>(i?' <span class="route-arrow">→</span> ':'')+'<span class="route-stop">'+x+'</span>').join('');});
 })(window);
