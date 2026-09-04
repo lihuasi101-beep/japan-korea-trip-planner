@@ -31,6 +31,19 @@
     ['day-13-am','10/7','周三','首尔','酒店→仁川机场→北京','上午','10:40 ICN→12:05 PEK · 大韩航空 KE855']
   ].map(([id,date,weekday,city,title,slot,note])=>({id,date,weekday,city,title,slot,note}));
   const defaultTerms=['交通转场','酒店入住/退房','休息/机动','自由活动','早餐/早午餐','当地晚餐','购物','松岛海上缆车','甘川文化村','海东龙宫寺','海云台蓝线公园','青沙浦','广安里夜景','对马岛比田胜','万松院','栉田神社','太宰府天满宫','福冈塔','大濠公园','福冈城遗址','实物大ν高达','GUNDAM SIDE-F','熊本城','城彩苑','水前寺成趣园','熊本熊广场','草千里','阿苏中岳火口','阿苏神社','景福宫','仁寺洞','南山公园','弘大'];
-  global.TripCatalog=Object.freeze({schemaVersion:1,catalogVersion:'2026.09.03-r7',meta:Object.freeze({title:'日韩13日秋游',dateRange:'2026/9/25–10/7',route:['北京','釜山','对马岛','福冈','熊本','首尔','北京']}),itinerary:Object.freeze(itinerary.map(Object.freeze)),defaultTerms:Object.freeze(defaultTerms)});
+  const planB = [
+    ['day-01-am','9/25','周五','釜山','北京→金海机场→釜山酒店','上午','08:25 PEK→11:45 PUS · 中国国航 CA129'],['day-01-pm','9/25','周五','釜山','松岛海上缆车、甘川文化村','下午','抵达后视入境速度调整'],
+    ['day-02-am','9/26','周六','釜山','海东龙宫寺、松亭、海岸列车','上午','由东向西'],['day-02-pm','9/26','周六','釜山','青沙浦、尾浦、海云台','下午','海岸线串联'],['day-02-night','9/26','周六','釜山','广安里海滩、广安大桥夜景','晚上','视体力调整'],
+    ['day-03-am','9/27','周日','釜山','釜山城市自由日：南浦洞、札嘎其市场','上午','补充釜山城市体验'],['day-03-pm','9/27','周日','釜山','BIFF广场、国际市场或海云台购物','下午','按体力选择'],
+    ['day-04-am','9/28','周一','对马岛','釜山→对马岛（比田胜）','上午','客轮转场 · 以船班为准'],['day-04-pm','9/28','周一','对马岛','比田胜港、港町与周边海岸','下午','抵达后入住、轻量散步'],
+    ['day-05-am','9/29','周二','福冈','对马岛→博多港→福冈酒店','上午','客轮转场 · 预留入境与行李时间'],['day-05-pm','9/29','周二','福冈','栉田神社、博多','下午','抵达后轻量游览'],
+    ['day-06-am','9/30','周三','福冈','太宰府天满宫','上午','半日游'],['day-06-pm','9/30','周三','福冈','福冈塔、百道海滨','下午','傍晚观景'],
+    ['day-07-am','10/1','周四','福冈','大濠公园、福冈城遗址','上午','公园与历史遗址'],['day-07-pm-1','10/1','周四','福冈','LaLaport福冈、实物大ν高达','下午','下午入场'],['day-07-pm-2','10/1','周四','福冈','GUNDAM SIDE-F、LaLaport购物','下午','高达主题店与购物'],['day-07-night','10/1','周四','福冈','ν高达夜间演出','晚上','演出时间出发前复核'],
+    ['day-08-am','10/2','周五','熊本','福冈→熊本','上午','新干线转场、酒店寄存'],['day-08-pm-1','10/2','周五','熊本','熊本城、城彩苑','下午','城郭与文化商业'],['day-08-pm-2','10/2','周五','熊本','熊本熊广场、熊本市中心','下午','舞台时间出发前查询'],
+    ['day-09-am','10/3','周六','熊本','水前寺成趣园','上午','庭园慢游'],['day-09-pm','10/3','周六','熊本','阿苏一日：草千里、中岳火口','下午','火口开放与交通需复核'],['day-10-am','10/4','周日','熊本','阿苏神社或火山博物馆','上午','阿苏替代线路'],['day-10-pm','10/4','周日','熊本','机场交通确认、行李整理','下午','建议住机场交通方便处'],
+    ['day-11-am','10/5','周一','首尔','熊本机场→仁川机场→首尔','上午','10:25 KMJ→12:00 ICN · 德威 TW288'],['day-11-pm','10/5','周一','首尔','仁川入境、入住、弘大','下午','跨国转场后轻量安排'],['day-12-am','10/6','周二','首尔','景福宫、仁寺洞','上午','首尔历史文化线'],['day-12-pm','10/6','周二','首尔','南山公园、明洞','下午','城市观光与晚餐'],['day-13-am','10/7','周三','首尔','酒店→仁川机场→北京','上午','10:40 ICN→12:05 PEK · 大韩航空 KE855']
+  ].map(([id,date,weekday,city,title,slot,note])=>({id,date,weekday,city,title,slot,note}));
+  const freezePlan = list => Object.freeze(list.map(Object.freeze));
+  global.TripCatalog=Object.freeze({schemaVersion:1,catalogVersion:'2026.09.04-r8',meta:Object.freeze({title:'日韩13日秋游',dateRange:'2026/9/25–10/7',route:['北京','釜山','对马岛','福冈','熊本','首尔','北京']}),itinerary:freezePlan(itinerary),plans:Object.freeze({A:freezePlan(itinerary),B:freezePlan(planB)}),defaultTerms:Object.freeze(defaultTerms)});
   document.addEventListener('DOMContentLoaded',()=>{document.title='日韩旅行计划｜'+global.TripCatalog.meta.route.join('·');const sub=document.querySelector('.hero-subtitle');if(sub)sub.textContent='13天12夜 · 釜山入境 · 对马岛与九州 · 首尔返程';const route=document.querySelector('.route-line');if(route)route.innerHTML=global.TripCatalog.meta.route.map((x,i)=>(i?' <span class="route-arrow">→</span> ':'')+'<span class="route-stop">'+x+'</span>').join('');const date=document.querySelector('.hero-date');if(date)date.textContent='SEP 25 — OCT 07';const stats=document.querySelectorAll('.overview-stat');if(stats[0]){stats[0].querySelector('strong').textContent='13天';stats[0].querySelector('span').textContent='2026/9/25–10/7'}if(stats[1]){stats[1].querySelector('strong').textContent='5站';stats[1].querySelector('span').textContent='釜山 · 对马岛 · 福冈 · 熊本 · 首尔'}});
 })(window);

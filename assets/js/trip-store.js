@@ -126,7 +126,20 @@
     keys: Object.freeze({ state: STATE_KEY, legacyItinerary: LEGACY_ITINERARY_KEY, legacyTerms: LEGACY_TERMS_KEY }),
     load,
     getState: current,
+    loadPlan(planId, fallback) {
+      const key = STATE_KEY + '-plan-' + String(planId || 'A').toUpperCase();
+      const saved = readJson(key, null);
+      return normalizeItinerary(saved, fallback || TripCatalog.itinerary);
+    },
+    savePlan(planId, itinerary) {
+      const key = STATE_KEY + '-plan-' + String(planId || 'A').toUpperCase();
+      const normalized = normalizeItinerary(itinerary, TripCatalog.itinerary);
+      writeJson(key, normalized);
+      return normalized;
+    },
     saveItinerary(itinerary) {
+      const active = localStorage.getItem('jk-trip-active-plan');
+      if (active) return { ...current(), itinerary: this.savePlan(active, itinerary) };
       const state = current();
       state.itinerary = itinerary;
       return persist(state);
@@ -154,6 +167,8 @@
       };
     },
     resetItinerary() {
+      const active = localStorage.getItem('jk-trip-active-plan');
+      if (active) return { ...current(), itinerary: this.savePlan(active, TripCatalog.plans?.[active] || TripCatalog.itinerary) };
       const state = current();
       state.itinerary = TripCatalog.itinerary;
       return persist(state);
