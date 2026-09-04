@@ -129,6 +129,10 @@
     loadPlan(planId, fallback) {
       const key = STATE_KEY + '-plan-' + String(planId || 'A').toUpperCase();
       const saved = readJson(key, null);
+      if (!saved && String(planId || 'A').toUpperCase() === 'A') {
+        const legacy = readJson(STATE_KEY, null);
+        if (legacy?.itinerary) return normalizeItinerary(legacy.itinerary, fallback || TripCatalog.itinerary);
+      }
       return normalizeItinerary(saved, fallback || TripCatalog.itinerary);
     },
     savePlan(planId, itinerary) {
