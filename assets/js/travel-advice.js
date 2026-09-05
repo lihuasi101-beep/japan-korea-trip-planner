@@ -56,7 +56,7 @@
     if (!panel || panel.querySelector('.cash-budget-card')) return;
     const card = document.createElement('section');
     card.className = 'cash-budget-card';
-    card.innerHTML = '<div><span class="travel-advice-kicker">现金准备</span><h2>人均现金储备建议</h2><p>机票、已预订酒店和高额购物不计入；船票若已线上支付，也不计入下列金额。</p></div><div class="cash-budget-grid"><div><b>₩350,000–400,000</b><span>韩国：釜山＋首尔＋交通卡＋备用金</span></div><div><b>¥80,000–100,000</b><span>日本：对马岛＋福冈＋熊本＋临时交通</span></div></div><small>建议同时携带一张可境外支付的 Visa/Mastercard；对马岛小店、公交和出租车优先保留日元现金。</small></section>';
+    card.innerHTML = '<div><span class="travel-advice-kicker">现金准备</span><h2>人均现金储备建议</h2><p>按最新 B 版本估算：釜山增加 1 天，对马岛北进南出并含跨岛交通；机票、已预订酒店和高额购物不计入。</p></div><div class="cash-budget-grid"><div><b>₩400,000–500,000</b><span>韩国：釜山 3 天＋首尔＋交通卡＋备用金</span></div><div><b>¥100,000–130,000</b><span>日本：对马岛北进南出＋福冈＋熊本＋临时交通</span></div></div><small>若船票已线上支付，可按区间下限准备；对马岛的跨岛包车/出租车、严原住宿周边消费建议按上限准备。建议同时携带一张可境外支付的 Visa/Mastercard。</small></section>';
     panel.insertBefore(card, panel.firstChild);
   }
 
