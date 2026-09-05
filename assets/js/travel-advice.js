@@ -61,6 +61,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('jk-trip-active-plan') !== 'B') {
+      localStorage.setItem('jk-trip-active-plan', 'B');
+      window.location.reload();
+      return;
+    }
+    document.querySelector('.plan-switch')?.remove();
     addAdvice();
     addBudget();
   });

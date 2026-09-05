@@ -133,7 +133,24 @@
         const legacy = readJson(STATE_KEY, null);
         if (legacy?.itinerary) return normalizeItinerary(legacy.itinerary, fallback || TripCatalog.itinerary);
       }
-      return normalizeItinerary(saved, fallback || TripCatalog.itinerary);
+      const result = normalizeItinerary(saved, fallback || TripCatalog.itinerary);
+      if (String(planId || '').toUpperCase() === 'B') {
+        const morning = result.find(item => item.id === 'day-05-am');
+        const afternoon = result.find(item => item.id === 'day-05-pm');
+        if (morning) {
+          morning.city = '对马岛';
+          morning.title = '对马岛南部收尾、前往严原港';
+          morning.slot = '上午';
+          morning.note = '退房、跨岛交通与行李衔接；预留上船时间';
+        }
+        if (afternoon) {
+          afternoon.city = '福冈';
+          afternoon.title = '严原 → 博多港 → 福冈酒店';
+          afternoon.slot = '下午';
+          afternoon.note = '对马岛→福冈客轮转场；抵达后入住休息';
+        }
+      }
+      return result;
     },
     savePlan(planId, itinerary) {
       const key = STATE_KEY + '-plan-' + String(planId || 'A').toUpperCase();
