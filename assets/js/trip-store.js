@@ -149,6 +149,17 @@
           afternoon.slot = '下午';
           afternoon.note = '对马岛→福冈客轮转场；抵达后入住休息';
         }
+        if (!result.some(item => item.id === 'day-06-pm-kushida')) {
+          result.push({
+            id: 'day-06-pm-kushida',
+            date: '9/30',
+            weekday: '周三',
+            city: '福冈',
+            title: '栉田神社',
+            slot: '下午',
+            note: '可选安排；视太宰府返程时间和体力决定'
+          });
+        }
       }
       return result;
     },
