@@ -45,7 +45,7 @@
     if (!guide || guide.querySelector('.travel-advice-block')) return;
     const block = document.createElement('section');
     block.className = 'travel-advice-block';
-    block.innerHTML = '<div class="travel-advice-head"><div><span class="travel-advice-kicker">落地执行建议</span><h2>交通与住宿底稿</h2><p>按当前 A 版本路线整理；酒店和船票地址确定后，可继续写入个人备忘。</p></div><span class="travel-advice-badge">A 方案</span></div><div class="travel-advice-grid">' +
+    block.innerHTML = '<div class="travel-advice-head"><div><span class="travel-advice-kicker">落地执行建议</span><h2>交通与住宿底稿</h2><p>按最终 B 版本路线整理；酒店和船票地址确定后，可继续写入个人备忘。</p></div><span class="travel-advice-badge">最终行程</span></div><div class="travel-advice-grid">' +
       ['busan', 'tsushima', 'fukuoka', 'kumamoto', 'seoul'].map(card).join('') + '</div>';
     const hero = guide.querySelector('.prep-hero');
     guide.insertBefore(block, hero ? hero.nextSibling : guide.firstChild);
@@ -60,6 +60,23 @@
     panel.insertBefore(card, panel.firstChild);
   }
 
+  function addClothing() {
+    const guide = document.querySelector('#guide');
+    const adviceBlock = guide?.querySelector('.travel-advice-block');
+    if (!guide || !adviceBlock || guide.querySelector('.clothing-guide')) return;
+    const block = document.createElement('section');
+    block.className = 'clothing-guide';
+    block.innerHTML = '<div class="travel-advice-head"><div><span class="travel-advice-kicker">9月25日—10月7日</span><h2>国庆前后穿衣指南</h2><p>城市里仍有夏末体感，阿苏、船上和首尔早晚按秋季准备；核心是分层穿着。</p></div><span class="travel-advice-badge">短袖＋中层＋防风层</span></div>' +
+      '<div class="climate-strip">' +
+        '<article><b>釜山／对马岛</b><strong>约 17–27℃</strong><span>海边与船上风大，短袖外加防风衣</span></article>' +
+        '<article><b>福冈</b><strong>约 17–28℃</strong><span>白天短袖为主，早晚加薄外套</span></article>' +
+        '<article><b>熊本／阿苏</b><strong>市区 15–27℃</strong><span>阿苏约 8–21℃，需抓绒或卫衣</span></article>' +
+        '<article><b>首尔</b><strong>约 10–24℃</strong><span>早晚偏凉，薄长袖与外套叠穿</span></article>' +
+      '</div>' +
+      '<div class="clothing-bottom"><div><h3>每人装箱建议</h3><ul><li>短袖 4–5 件，薄长袖或衬衫 2 件</li><li>薄卫衣／抓绒 1 件，防风防雨外套 1 件</li><li>长裤 2–3 条，舒适防滑运动鞋 1 双</li><li>速干袜 5–7 双，折叠伞、帽子与防晒</li><li>怕冷者增加轻薄羽绒背心或压缩羽绒服</li></ul></div><div><h3>临行复核</h3><ul><li>9/18–20：查看整体降温与台风趋势</li><li>9/23–24：按城市检查逐日预报</li><li>每次乘船前一天：查风速、海况和停航公告</li><li>阿苏出发前一天：查气温、降雨和火口开放</li></ul><div class="clothing-links"><a href="https://www.data.jma.go.jp/stats/data/en/normal/normal.html" target="_blank" rel="noopener">日本气象厅平年值 ↗</a><a href="https://www.weather.go.kr/w/climate/statistics/region.do" target="_blank" rel="noopener">韩国气象厅气候资料 ↗</a></div></div></div>';
+    adviceBlock.insertAdjacentElement('afterend', block);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('jk-trip-active-plan') !== 'B') {
       localStorage.setItem('jk-trip-active-plan', 'B');
@@ -68,6 +85,7 @@
     }
     document.querySelector('.plan-switch')?.remove();
     addAdvice();
+    addClothing();
     addBudget();
   });
 })();
