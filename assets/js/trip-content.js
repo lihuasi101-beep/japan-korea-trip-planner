@@ -130,7 +130,7 @@
     { id: 'ferry-tsushima-fukuoka', group: '交通与住宿', title: '对马岛 → 福冈客轮', date: '9/29', deadline: '尽快锁定', detail: '确认比田胜港出发与博多港抵达；预留日本入境及行李时间。', level: 'critical' },
     { id: 'flight-kumamoto-seoul', group: '交通与住宿', title: '熊本 → 首尔航班', date: '10/5', deadline: '已购待复核', detail: '10:25 KMJ→12:00 ICN，德威航空 TW288；10/4 晚建议住机场交通方便处。', level: 'critical' },
     { id: 'flight-seoul-beijing', group: '交通与住宿', title: '首尔 → 北京航班', date: '10/7', deadline: '已购待复核', detail: '10:40 ICN T2→12:05 PEK T2，大韩航空 KE855。', level: 'critical' },
-    { id: 'hotels', group: '交通与住宿', title: '四地酒店与行李方案', date: '全程', deadline: '订票后同步', detail: '记录釜山、熊本、福冈、首尔酒店地址、入住时间、最近车站及寄存安排。', level: 'critical' },
+    { id: 'hotels', group: '交通与住宿', title: '酒店与行李方案', date: '全程', deadline: '剩余酒店订妥后同步', detail: '已确认：Gwangalli Moon Bay Hotel（9/25–9/28，1间房）、Toyoko Inn Tsushima Hitakatsu（9/28–9/29，截图显示2间房）。继续补齐福冈、熊本、首尔酒店地址、入住时间、最近车站及寄存安排。', level: 'critical' },
     { id: 'blue-line', group: '门票与活动', title: '海云台蓝线公园', date: '9/26', deadline: '开放预约后', detail: '确认海岸列车或天空胶囊、上车站、方向、班次与单程/往返。', level: 'booking', link: 'https://www.tbluelinepark.com/' },
     { id: 'aso-transport', group: '门票与活动', title: '阿苏往返交通', date: '9/29', deadline: '班次开放后', detail: '锁定熊本往返班次；主方案按草千里、博物馆与阿苏神社组织。', level: 'critical', link: 'https://www.sankobus.jp/news/20260814-mtaso/' },
     { id: 'aso-alert', group: '临行复核', title: '阿苏火山警戒与天气', date: '9/29', deadline: '出发前 7 天及前 1 天', detail: '复核警戒等级、巴士终点与景区开放；中岳火口不作为当前必达项。', level: 'review', link: 'https://www.aso-volcano.jp/notice/index.cgi' },
